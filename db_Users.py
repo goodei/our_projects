@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-#from sqlalchemy import Column, Integer, String
+
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, ForeignKey
@@ -35,12 +35,7 @@ class User(Base):       #объявляем нашу таблицу как кл�
     password_u = Column(String(50))
     urls = relationship('Urls', secondary=association_table, backref ='user_ass')
     
-    def __init__(self, password_u=None, log_email=None):    #объявление функции (метода класса)
-                                                                        # а функция __init__ -это конструктор класса
-        self.log_email = log_email
-        self.password_u = password_u
-        #self.last_name = last_name  # здесь self... это обращение к своему собственному атрибуту в данном случае last_name = Column(String(50))
-        
+       
 
     def __repr__(self):   #   метод, если мы сделаем print(User), то смотри ниже формат печати
         return '<User {} {}>'.format(self.log_email, self.password_u)
@@ -54,16 +49,10 @@ class Urls(Base):       #объявляем нашу таблицу как кл�
     #first_name = Column(String(50))
     #last_name = Column(String(50))
     url = Column(String(50))
-    tag = Column(String(120))  # тут unique значит, что бд будет сама проверять уникальность
+    tag = Column(String(120)) 
     user = relationship('User', secondary=association_table, backref ='urls_ass') 
 
-    def __init__(self, url=None, tag=None):    #объявление функции (метода класса)
-                                                                        # а функция __init__ -это конструктор класса
-        self.url = url
-        #self.last_name = last_name  # здесь self... это обращение к своему собственному атрибуту в данном случае last_name = Column(String(50))
-        self.tag = tag
-
-
+    
     def __repr__(self):   #   метод, если мы сделаем print(Urls), то смотри ниже формат печати
         return '<Url {} {}>'.format(self.url, self.tag)
 
