@@ -3,8 +3,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, ForeignKey
+import rsa
 
 # sqlalchemy синхронизирует наш объект в программном коде с записью в бд
+
+#(pubkey, privkey) = rsa.newkeys(512)
+#pub = pubkey
+#priv = privkey
 
 
 engine = create_engine('sqlite:///rss.sqlite') # создаём engin - выбираем с какой бд будем работать. 
@@ -16,10 +21,17 @@ Base = declarative_base()   # создаём класс с названием Ba
 Base.query = db_session.query_property()     # привязываем к declarative_base возмоэность делать запросы к бд
 
 
-association_table = Table('association', Base.metadata,
+association_table = Table('association_table', Base.metadata,
     Column('User_id', Integer, ForeignKey('User.id')),
     Column('Urls_id', Integer, ForeignKey('Urls.id'))
 )
+
+#class association_table(Base):
+#    __tablename__ = 'association_table' 
+#   # id = Column(Integer, primary_key = True)
+#    User_id = Column(Integer,ForeignKey('User.id'), primary_key = True)
+#    Urls_id = Column(Integer,ForeignKey('Urls.id'), primary_key = True)
+
 
 
 
@@ -31,8 +43,8 @@ class User(Base):       #объявляем нашу таблицу как кл�
     id = Column(Integer, primary_key = True)    # у класса Users будет атрибут(колонка в табл id)
     #first_name = Column(String(50))
     #last_name = Column(String(50))
-    log_email = Column(String(120), unique = True)  # тут unique значит, что бд будет сама проверять уникальность 
-    password_u = Column(String(50))
+    log_email = Column(String(5000), unique = True)  # тут unique значит, что бд будет сама проверять уникальность 
+    password_u = Column(String(5000))
     urls = relationship('Urls', secondary=association_table, backref ='user_ass')
     
        
