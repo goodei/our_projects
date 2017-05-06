@@ -1,1 +1,6 @@
 SQLAlchemy==1.1.9
+redis==2.10.5
+requests==2.13.0
+python-dateutil==2.6.0
+Flask==0.12.1
+Jinja2==2.9.6
