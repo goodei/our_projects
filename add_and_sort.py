@@ -12,8 +12,6 @@ from encoder import MyEncoder,decode
 
 from settings import REDIS_SETTINGS
 
-u_url = Urls
-u_link = u_url.query.order_by(Urls.id).all()
 
 r = redis.Redis(**REDIS_SETTINGS)
 
@@ -37,6 +35,8 @@ def get_from_r(link_adr):
 
 
 def sequence_save():
+    u_url = Urls
+    u_link = u_url.query.order_by(Urls.id).all()
     for link in u_link:
         part = urlparse(link.url)
         site = link
@@ -44,6 +44,7 @@ def sequence_save():
             save_to_r(site,rbk)
         else:
             save_to_r(site,par_habr_geek)
+
 
 
 if __name__ == "__main__":

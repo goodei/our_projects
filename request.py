@@ -5,7 +5,7 @@ from dateutil.parser import parse
 from datetime import datetime,timedelta,timezone
 
 
-PUBLISHED_TIME_LIMIT = 24 #hours
+PUBLISHED_TIME_LIMIT = 4 #hours
 CONVERT_TO_OURS = 3600 #seconds
 
 time_now = datetime.now()
