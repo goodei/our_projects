@@ -10,23 +10,6 @@ from db_Users import engine
 import rsa
 
 
-def first_try():
-    u = User            #объект класса User
-    us = u.query.order_by(User.id).all()    # select all from User order by User.id
-    for name in us:
-        print(name.log_email)
-
-    u_url = Urls
-    us_tag = u_url.query.get(1)     # select * from Urls where Urls.id = 1
-
-    print(us_tag.user_ass)          # select User.* from User, association, Urls 
-                                    #               where Urls.id = 1 and association.User_id = User.id
-
-    first_user = u.query.get(2)     # select Urls.* 
-                                    # from User, association, Urls where User.id = 2 and association.Urls_id = Urls.id
-    print(first_user.urls_ass)
-
-#db_session.commit()
 
 def user_association(e_mail, password):
 
@@ -66,39 +49,19 @@ def create_log(e_mail, password):
 
 
 
-def catch_tags(e_mail):
+def catch_tags(e_mail):     # если пользователь существует, забирает его urls
     u = User            #объект класса User
     #us = u.query.filter(User.log_email == e_mail).all()    # select * from User where mail = e_mail
     us = u.query.filter(User.log_email == e_mail).first()    # select * from User where mail = e_mail
-    print('!!!!',us)
-    #for name in us:
-    print('!!!!', us.log_email)
-    print('!!!!', us.id)
-    print('!!!!', us.urls_ass)
-    #us_id = us.urls_ass            #***Why it doesn't work? )
-    #print ('!!!', us_id)           
-
-    #u_url = Urls
-    #us_tag = u_url.query.get(1)     # select * from Urls where Urls.id = 1
-
-    #print(us_tag.user_ass)          # select User.* from User, association, Urls 
-                                    #               where Urls.id = 1 and association.User_id = User.id
-
-    #first_user = u.query.get(6)     # select Urls.* 
-                                    # from User, association, Urls where User.id = 2 and association.Urls_id = Urls.id
-    #print(first_user.urls_ass)      #*** AND Why it works? )
-    return 'Catch success'
+    
+    return us.urls_ass
 
 
 
 
 def check_mail(e_mail):
     u = User            #объект класса User
-    user_mail = u.query.filter(User.log_email == e_mail).all()    
-    
-
-
-
+    user_mail = u.query.filter(User.log_email == e_mail).first()    
     return user_mail
 
 def query_password(password, e_mail, priv):
@@ -107,8 +70,6 @@ def query_password(password, e_mail, priv):
     user_mail = u.query.filter(User.log_email == e_mail).first()   # select * from User where mmail=mail
     if user_mail:
         user_password =  user_mail.password_u
-        print(user_password)
-        print(priv)
         password_un_crypto = rsa.decrypt(user_password, priv)
         return password_un_crypto == password
     return False
@@ -140,11 +101,10 @@ def wr_file(attributes):
             return True
 
 
-def hello_user():
-    print('Hi-Hi )')
+def crypto(user_existence):
+    users_mail = user_existence
+    keys = []
 
-    u = User            #объект класса User
-    users_mail = u.query.all()  
     if users_mail:
         print('something')
         with open('private.pem', 'r') as privatefile:
@@ -152,7 +112,7 @@ def hello_user():
         privkey = rsa.PrivateKey.load_pkcs1(keydata)
         with open('public.pem', 'r') as publicfile:
             keydata_pub = publicfile.read()
-        pubkey = rsa.PublicKey.load_pkcs1(keydata_pub)
+        pubkey = rsa.PublicKey.load_pkcs1(keydata_pub)    
 
     else:
         print('nothing')
@@ -164,36 +124,21 @@ def hello_user():
         with open('public.pem', 'w') as f:
             f.write(pub.decode('utf-8'))
 
-        #create_log(pub, priv)
-        #user_mail = u.query.get(1)
-        #pub = user_mail.log_email
-        #priv = user_mail.password_u
+    keys.append(privkey)
+    keys.append(pubkey)
+    
+    return keys
 
-   # (pubkey, privkey) = rsa.newkeys(512)
-
-    #pub = pubkey
-    #priv = privkey
-    # print('KEYS')
-    #print(pub)
-    #print(priv)
-     
-        
-    # шифруем
-    #crypto = rsa.encrypt(message, pub)
-    #print(crypto)
-    #расшифровываем
-    #message = rsa.decrypt(crypto, priv)
-    #print(message)
-
+def input_from_cons(privkey, pubkey):
 
     flag_sign = int(input('If you are a already signed in, print 1 if no 0: '))
 
     if flag_sign == 1:
         e_mail = str(input('pls enter in account, type your e-mail: '))
-        if check_mail(e_mail):
-            print(check_mail(e_mail))
-            if check_password(e_mail, privkey):
-                print(catch_tags(e_mail))
+        if check_mail(e_mail):                                          # проверяем наличие в б.д. такого юзера
+            #print(check_mail(e_mail))
+            if check_password(e_mail, privkey):                         # сверяем его пароль
+                print(catch_tags(e_mail))                               # выводим связанные с ним urls
             
 
         else:
@@ -207,13 +152,25 @@ def hello_user():
         e_mail = str(input('pls type your e-mail: '))
         password = str(input('pls type your pass: '))
         password_b = str.encode(password)               #перевод строки в bytes
-        print(password_b)
+        print(password_b)        
         password_crypto = rsa.encrypt(password_b, pubkey)  # шифруем открытым ключом
-        password_un_crypto = rsa.decrypt(password_crypto, privkey)  # шифруем открытым ключом
-        #print(password_un_crypto)
 
         create_log(e_mail, password_crypto)             # создаём запись о user в бд
 
+
+
+def hello_user():       # отсюда вызываем функцию шифрования и функцию консольного ввода
+    print('Hi-Hi )')
+    keys = []
+
+    u = User            #объект класса User
+    users_mail = u.query.all()  
+    keys = crypto(users_mail)       # вызов функции отвечающей за создание ключей для шифрования
+    privkey = keys[0]               # собственно полученный приватный ключ для шифрования
+    pubkey = keys[1]                # публичный ключ для дешифрования
+
+    
+    input_from_cons(privkey, pubkey)    # вызов функции консольного ввода, отсюда дёргаем всё остальное
 
 
     print('Bi-Bi-Bi')
@@ -221,7 +178,9 @@ def hello_user():
 
 
 def main():
-   # first_try()
+   
     hello_user()
 
-main()
+if __name__ == '__main__':
+    main()
+
