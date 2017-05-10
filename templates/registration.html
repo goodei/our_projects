@@ -1,0 +1,45 @@
+ <link href="static/css/login_style.css" rel="stylesheet">
+{% block body %}
+{% if session['logged_in'] %}
+<p>You're logged in already!</p>
+{% else %}
+
+<form action="/reg" method="POST">
+    <div class="reg">
+        <div class="reg-screen">
+            <div class="app-title">
+                <h1>New User</h1>
+            </div>
+            <div class="reg-form">
+                <div class="control-group">
+                    <input type="text" class="reg-field" value="" placeholder="username" name="username">
+                    <label class="reg-field-icon fui-user" for="reg-name"></label>
+                </div>
+                <div class="control-group">
+                    <input type="password" class="reg-field" value="" placeholder="password" name="password">
+                    <label class="reg-field-icon fui-lock" for="reg-pass"></label>
+                </div>
+                <div class="control-group">
+                    <input type="password" class="reg-field" value="" placeholder="repeat password" name="password">
+                    <label class="reg-field-icon fui-lock" for="reg-pass"></label>
+                </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <br>
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                {{message}}
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <input type="submit" value="Register" class="btn btn-primary btn-large btn-block" >
+                <br>
+            </div>
+        </div>
+    </div>
+</form>
+ 
+{% endif %}
+{% endblock %}
