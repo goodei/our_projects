@@ -7,6 +7,7 @@ from sqlalchemy import Table, Column, Integer, String, Text, DateTime, ForeignKe
 # sqlalchemy синхронизирует наш объект в программном коде с записью в бд
 
 
+
 engine = create_engine('sqlite:///rss.sqlite') # создаём engin - выбираем с какой бд будем работать. 
                                                 # Будем работать с Sqlite и файл с базой будет blog.sqlite в той же папке где и прога
 db_session = scoped_session(sessionmaker(bind=engine))  #создаём сессию работы с бд, это соединение с бд
@@ -16,10 +17,11 @@ Base = declarative_base()   # создаём класс с названием Ba
 Base.query = db_session.query_property()     # привязываем к declarative_base возмоэность делать запросы к бд
 
 
-association_table = Table('association', Base.metadata,
+association_table = Table('association_table', Base.metadata,
     Column('User_id', Integer, ForeignKey('User.id')),
     Column('Urls_id', Integer, ForeignKey('Urls.id'))
 )
+
 
 
 
@@ -29,10 +31,8 @@ class User(Base):       #объявляем нашу таблицу как кл�
     __tablename__ = 'User'     # атрибут класса tablename - как нашей бд газвать таблицу, 
                                 # ниже создаём столбцы для этой таблицы
     id = Column(Integer, primary_key = True)    # у класса Users будет атрибут(колонка в табл id)
-    #first_name = Column(String(50))
-    #last_name = Column(String(50))
-    log_email = Column(String(120), unique = True)  # тут unique значит, что бд будет сама проверять уникальность 
-    password_u = Column(String(50))
+    log_email = Column(String(50), unique = True)  # тут unique значит, что бд будет сама проверять уникальность 
+    password_u = Column(String(70))
     urls = relationship('Urls', secondary=association_table, backref ='user_ass')
     
        
@@ -46,8 +46,6 @@ class Urls(Base):       #объявляем нашу таблицу как кл�
     __tablename__ = 'Urls'     # атрибут класса tablename - как нашей бд газвать таблицу, 
                                 # ниже создаём столбцы для этой таблицы
     id = Column(Integer, primary_key = True)    # у класса Users будет атрибут(колонка в табл id)
-    #first_name = Column(String(50))
-    #last_name = Column(String(50))
     url = Column(String(50))
     tag = Column(String(120)) 
     user = relationship('User', secondary=association_table, backref ='urls_ass') 
