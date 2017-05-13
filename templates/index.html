@@ -21,9 +21,9 @@
     <div class="container-fluid">
       <div class="col-md-2 sidebar pull-right">
         <ul class="nav nav-sidebar">
-          <li class="active"><a href="#">Источники<span class="sr-only">(current)</span></a></li>
+          <li class="active"><a href="#"><p class="tglist">Источники</p>><span class="sr-only">(current)</span></a></li>
           {% for i in taglist %}
-            <li><a href="#">{{i}}</a></li>
+            <li><a href="#"><p class="tglist">{{i}}</p>></a></li>
           {% endfor %}
         </ul>
         <form class="navbar-form navbar-right" method="POST" action="/logout">

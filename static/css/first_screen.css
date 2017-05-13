@@ -2,7 +2,17 @@
  * Base structure
  */
 
+body {
+  font-family: Arial;
+}
 
+h1 {
+  font-size: 30px;
+}
+
+.tglist{
+  margin-left: 20px;
+}
 
 /*
  * Global add-ons
