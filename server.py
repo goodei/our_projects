@@ -20,6 +20,7 @@ def home():
         return render_template('login.html')
     else:
         u = User
+        e_mail = session.get('e_mail')
         us = u.query.filter(User.log_email == e_mail).first()
         taglist = []
         for i in us.urls_ass:
