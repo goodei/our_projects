@@ -51,3 +51,7 @@ if __name__ == "__main__":
     sequence_save()
 
 
+    # for link in u_link:
+    #     print('Cайт :{} + ВНУТРИ : {} \n'.format(link,get_from_r(link)))
+
+

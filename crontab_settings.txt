@@ -1,0 +1,3 @@
+PROJ="projects/big_project/our_projects"
+
+0 */3 * * * cd $PROJ && python add_and_sort.py

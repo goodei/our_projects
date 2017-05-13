@@ -25,8 +25,17 @@ def home():
         taglist = []
         for i in us.urls_ass:
             taglist.append(i.tag)
-        print (taglist)
-        return render_template('index.html', taglist=taglist)
+        statii=[]
+        for link in us.urls_ass:
+            articles = get_from_r(link)
+            for a in articles:
+                a['source'] = link.tag
+            statii += articles
+        statii = sorted(statii,key= lambda x:x['published'],reverse = True)
+
+
+
+        return render_template('index.html', taglist=taglist, statii = statii)
         # teglist = get_from_r(str(urls.querry.filter)) # создать запрос который будет выдавать список тегов, создать словарь по содержимому
 
 

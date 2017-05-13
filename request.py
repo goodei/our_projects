@@ -38,7 +38,7 @@ def rbk(url):
                 news = {
                     'published':upd_time,
                     'title':post.title,
-                    'id':post.id
+                    'link':post.link
                 }
                 posts.append(news)
         return sorted(posts,key= lambda x:x['published'],reverse = True)
