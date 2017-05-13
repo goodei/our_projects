@@ -32,25 +32,27 @@
         <ul class="nav nav-sidebar">
           <li class="active"><a href="#">Теги<span class="sr-only">(current)</span></a></li>
           {% for i in taglist %}
-          <li><a href="#">{% i %}</a></li>
+            <li><a href="#">{{i}}</a></li>
           {% endfor %}
         </ul>
       </div>
-      <div class="col-md-10 main">
-        <h1 class="page-header">tagheader</h1>
-        <div class="row placeholders">
-          <div class="media col-md-8">
-            <div class="media-body">
-              <h4 class="media-heading">News header <span class="date">(date)</span></h4>
-              <span class="media-body">News text. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas.</span><span> </span></span><a href="#">ссылка</a>
-            </div>
-            <div class="media-right">
-              <a href="#">
-              <img src="" class="media-object" alt="Generic placeholder thumbnail"></a>
+      <!-- {% for i in taglist %} -->
+        <div class="col-md-10 main">
+          <h1 class="page-header">tagheader</h1>
+          <div class="row placeholders">
+            <div class="media col-md-8">
+              <div class="media-body">
+                <h4 class="media-heading">News header <span class="date">(date)</span></h4>
+                <span class="media-body">News text. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas. Sator arepo tenet opera rotas.</span><span> </span></span><a href="#">ссылка</a>
+              </div>
+              <div class="media-right">
+                <a href="#">
+                <img src="" class="media-object" alt="Generic placeholder thumbnail"></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      <!-- {% endfor %} -->
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
