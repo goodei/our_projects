@@ -13,6 +13,8 @@ engine = create_engine('sqlite:///rss.sqlite')
 
 my_flask_app = Flask(__name__)
 
+my_flask_app.secret_key = os.urandom(20)
+
 
 @my_flask_app.route('/')
 def home():
@@ -89,5 +91,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    my_flask_app.secret_key = os.urandom(20)
+    
     my_flask_app.run(debug=True)
