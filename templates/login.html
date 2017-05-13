@@ -38,39 +38,6 @@
         </div>
     </div>
 </form>
- 
-<form action="/registration" method="POST">
-    <div class="registration">
-        <div class="registration-screen">
-            <div class="app-title">
-                <h1>Login</h1>
-            </div>
-            <div class="registration-form">
-                <div class="control-group">
-                    <input type="text" class="registration-field" value="" placeholder="username" name="username">
-                    <label class="registration-field-icon fui-user" for="registration-name"></label>
-                </div>
-                <div class="control-group">
-                    <input type="password" class="registration-field" value="" placeholder="password" name="password">
-                    <label class="registration-field-icon fui-lock" for="registration-pass"></label>
-                </div>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <br>
-                            <div class="alert alert-warning alert-dismissible" role="alert">
-                                {{message}}
-                            </div>
-                            <br>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
-                <br>
-            </div>
-        </div>
-    </div>
-</form>
 
 {% endif %}
 {% endblock %}
