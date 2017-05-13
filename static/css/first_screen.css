@@ -11,7 +11,7 @@ h1 {
 }
 
 .tglist{
-  margin-left: 20px;
+  text-indent: 20 px;
 }
 
 /*
@@ -59,7 +59,7 @@ h1 {
 .nav-sidebar {
   margin-right: -21px; /* 20px padding + 1px border */
   margin-bottom: 20px;
-  margin-left: 20px;
+  margin-left: -20px;
 }
 .nav-sidebar > li > a {
   padding-right: 20px;
