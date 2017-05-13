@@ -44,9 +44,11 @@ def login():
     else: 
         if query_password(password_b, e_mail, priv) == True:
             session['logged_in'] = True
+            session['e_mail'] = e_mail
             return home()
         else:
             return home() # вывести кнопку регистрации
+
     
 
 
