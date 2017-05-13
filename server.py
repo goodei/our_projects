@@ -5,9 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from db_Users import db_session, User, Urls
-from query_db import crypto, check_password, query_password
+from query_db import crypto, check_password, query_password, create_log, check_mail
 from add_and_sort import get_from_r
-#import rsa
+import rsa
 
 engine = create_engine('sqlite:///rss.sqlite')
 
@@ -42,23 +42,42 @@ def home():
 @my_flask_app.route('/login', methods=['POST'])
 def login():
     u = User
-    e_mail = str(request.form['username'])
-    passwd = str(request.form['password'])
-    password_b =  str.encode(passwd)
-    users_mail = u.query.all()  
-    keys = crypto(users_mail)
-    priv = keys[0]               # собственно полученный приватный ключ для шифрования
-    pubkey = keys[1]
-    qry_login = u.query.filter(User.log_email == e_mail).first()
-    if qry_login is None:
-        flash('No such user or invalid password')
-    else: 
+    print(request.form)
+    if request.form['submit-btn'] == 'login':
+        e_mail = str(request.form['username'])
+        passwd = str(request.form['password'])
+        password_b =  str.encode(passwd)
+        users_mail = u.query.all()  
+        keys = crypto(users_mail)
+        priv = keys[0]               # собственно полученный приватный ключ для шифрования
+        pubkey = keys[1]
+        qry_login = u.query.filter(User.log_email == e_mail).first()
+        print('user', qry_login)
+        if qry_login is None:
+            flash('No such user or invalid password')
+        else: 
+            if query_password(password_b, e_mail, priv) == True:
+                session['logged_in'] = True
+                session['e_mail'] = e_mail
+            else:
+                flash('Invalid password')
+    else:
+        e_mail = str(request.form['username'])
+        passwd = str(request.form['password'])
+        password_b =  str.encode(passwd)
+        users_mail = u.query.all()  
+        keys = crypto(users_mail)
+        priv = keys[0]               # собственно полученный приватный ключ для шифрования
+        pubkey = keys[1]
+        password_crypto = rsa.encrypt(password_b, pubkey)
+        create_log(e_mail, password_crypto)
         if query_password(password_b, e_mail, priv) == True:
             session['logged_in'] = True
             session['e_mail'] = e_mail
-            return home()
         else:
-            return home() # вывести кнопку регистрации
+            flash('No such user or invalid password')
+
+    return home() # вывести кнопку регистрации
 
     
 
