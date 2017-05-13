@@ -40,7 +40,7 @@
           <div class="row placeholders">
             <div class="media col-md-8">
               <div class="media-body">
-                <h4 class="media-heading">{{i['source']}} <span class="date">{{i['published'].strftime('%d %m %Y %H:%M')}}</span></h4>
+                <h3 class="media-heading">{{i['source']}} <span class="date">{{i['published'].strftime('%d %m %Y %H:%M')}}</span></h3>
                 {%if 'summary_detail' in i%}
                 <span class="media-body">{{i['summary_detail'] | safe}}
                 {% endif %}
