@@ -25,7 +25,7 @@ def home():
         taglist = []
         for i in us.urls_ass:
             taglist.append(i.tag)
-            return render_template('index.html')
+        return render_template('index.html', taglist=taglist)
         # teglist = get_from_r(str(urls.querry.filter)) # создать запрос который будет выдавать список тегов, создать словарь по содержимому
 
 
