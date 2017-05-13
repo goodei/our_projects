@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from db_Users import db_session, User, Urls
 from query_db import crypto, check_password, query_password
 from add_and_sort import get_from_r
-import rsa
+#import rsa
 
 engine = create_engine('sqlite:///rss.sqlite')
 
